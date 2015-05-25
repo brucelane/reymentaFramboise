@@ -1,2 +1,6 @@
 # reymentaFramboise
-RPI2 server
+RPI2 midi to websockets router
+uses ofxaddons:
+https://github.com/danomatika/ofxMidi
+https://github.com/labatrockwell/ofxLibwebsockets
+
