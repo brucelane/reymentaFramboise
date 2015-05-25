@@ -75,6 +75,7 @@ void ofApp::draw(){
 	// draw the last recieved message contents to the screen
 	text << "Received: " << ofxMidiMessage::getStatusString(midiMessage.status);
 	ofDrawBitmapString(text.str(), 20, 20);
+	server.send( text.str() );
 	text.str(""); // clear
 
 	text << "channel: " << midiMessage.channel;
@@ -170,7 +171,7 @@ void ofApp::keyPressed(int key){
         messages.push_back("Sent: '" + toSend + "' to "+ ofToString(server.getConnections().size())+" websockets" );
         toSend = "";
     }
-    if ( key == OF_KEY_ESCAPE ){
+    if ( key == OF_KEY_ESC ){
             exit();
     }
 }
