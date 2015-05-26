@@ -80,6 +80,14 @@ void ofApp::draw(){
             name = midiMessage.control;
             value = midiMessage.value;
             break;
+	    case MIDI_NOTE_ON:
+            name = midiMessage.pitch;
+            value = midiMessage.velocity;
+            break;
+	    case MIDI_NOTE_OFF:
+            name = midiMessage.pitch;
+            value = midiMessage.velocity;
+            break;
 	}
 	text.str(""); // clear
 	// lmap<float>(value, 0.0, 127.0, 0.0, 1.0) (from Cinder)
