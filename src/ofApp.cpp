@@ -46,19 +46,19 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     if ( bSetup ){
-        ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 20);
+        ofDrawBitmapString("WebSocket server setup at "+ofToString( server.getPort() ) + ( server.usingSSL() ? " with SSL" : " without SSL"), 20, 260);
 
         ofSetColor(150);
-        ofDrawBitmapString("Click anywhere to open up client example", 20, 40);
+        ofDrawBitmapString("Click anywhere to open up client example", 20, 280);
     } else {
-        ofDrawBitmapString("WebSocket setup failed :(", 20,20);
+        ofDrawBitmapString("WebSocket setup failed :(", 20,260);
     }
 
     int x = 20;
-    int y = 100;
+    int y = 320;
 
     ofSetColor(0,150,0);
-    ofDrawBitmapString("Console", x, 80);
+    ofDrawBitmapString("Console", x, 300);
 
     ofSetColor(255);
     for (int i = messages.size() -1; i >= 0; i-- ){
@@ -72,10 +72,24 @@ void ofApp::draw(){
     ofSetColor(255);
     ofDrawBitmapString(toSend, x, ofGetHeight() - 40);
 	// midi
+	int name = 0;
+	int value = 0;
+	switch (midiMessage.status)
+	{
+	    case MIDI_CONTROL_CHANGE:
+            name = midiMessage.control;
+            value = midiMessage.value;
+            break;
+	}
+	text.str(""); // clear
+	// lmap<float>(value, 0.0, 127.0, 0.0, 1.0) (from Cinder)
+	float normalizedValue = value / 127;
+	text << "{\"params\" :[{\"name\" : " << name << ",\"value\" : " << normalizedValue << "}]}";
+	server.send( text.str() );
+	text.str(""); // clear
 	// draw the last recieved message contents to the screen
 	text << "Received: " << ofxMidiMessage::getStatusString(midiMessage.status);
 	ofDrawBitmapString(text.str(), 20, 20);
-	server.send( text.str() );
 	text.str(""); // clear
 
 	text << "channel: " << midiMessage.channel;
