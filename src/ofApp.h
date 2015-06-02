@@ -48,5 +48,7 @@ public:
     stringstream text;
 
     ofxMidiIn midiIn;
+    ofxMidiIn midiInLaunchpad;
+    ofxMidiIn midiInNanoKontrol;
     ofxMidiMessage midiMessage;
 };

@@ -22,10 +22,25 @@ void ofApp::setup(){
 	// print input ports to console
 	midiIn.listPorts(); // via instance
 	//ofxMidiIn::listPorts(); // via static as well
-
+    if (midiIn.getNumPorts()) {
+	    for (int i=0; i<midiIn.getNumPorts(); i++) {
+            string pname = midiIn.getPortName(i);
+            if (ofStringTimesInString(pname, "Launchpad")) {
+                printf("Launchpad on %d\n", i);
+                midiInLaunchpad.openPort(i);
+                midiInLaunchpad.addListener(this);
+            }
+            if (ofStringTimesInString(pname, "nano")) {
+                printf("nanoKontrol on %d\n", i);
+                midiInNanoKontrol.openPort(i);
+                midiInNanoKontrol.addListener(this);
+            }
+        }
+	}
 	// open port by number (you may need to change this)
-	midiIn.openPort(2);
-	//midiIn.openPort("IAC Pure Data In");	// by name
+	midiIn.openPort(3);
+
+	//midiIn
 	//midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
 
 	// don't ignore sysex, timing, & active sense messages,
