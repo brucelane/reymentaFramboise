@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="config.make" open="1" top="1" tabpos="3">
+	<File name="config.make" open="0" top="0" tabpos="3">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="src/ofApp.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="5747" topLine="151" />
+	<File name="src/ofApp.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="4643" topLine="0" />
 	</File>
 	<File name="src/ofApp.h" open="1" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="418" topLine="6" />
 	</File>
 </CodeBlocks_layout_file>

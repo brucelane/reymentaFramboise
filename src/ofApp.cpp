@@ -24,7 +24,7 @@ void ofApp::setup(){
 	//ofxMidiIn::listPorts(); // via static as well
 
 	// open port by number (you may need to change this)
-	midiIn.openPort(1);
+	midiIn.openPort(2);
 	//midiIn.openPort("IAC Pure Data In");	// by name
 	//midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
 
