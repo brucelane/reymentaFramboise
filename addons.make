@@ -1,2 +1,5 @@
-ofxLibwebsockets
+ofxGui
+ofxXmlSettings
+ofxOsc
 ofxMidi
+ofxLibwebsockets

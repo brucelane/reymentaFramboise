@@ -6,6 +6,7 @@
 
 #define NUM_MESSAGES 30 // how many past messages we want to keep
 
+
 class ofApp : public ofBaseApp, public ofxMidiListener
 {
 
