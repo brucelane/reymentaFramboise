@@ -17,8 +17,7 @@ void ofApp::setup(){
 
     ofBackground(0);
     ofSetFrameRate(60);
-
-
+    ofSetWindowPosition(10, 100);
 	// midi
 	// print input ports to console
 	midiIn.listPorts(); // via instance

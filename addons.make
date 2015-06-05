@@ -3,3 +3,4 @@ ofxXmlSettings
 ofxOsc
 ofxMidi
 ofxLibwebsockets
+ofxOpenCv
