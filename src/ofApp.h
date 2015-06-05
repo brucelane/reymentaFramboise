@@ -6,6 +6,12 @@
 
 #define NUM_MESSAGES 30 // how many past messages we want to keep
 
+// openCv
+#include "ofxOpenCv.h"
+
+//#define _USE_LIVE_VIDEO		// uncomment this to use a live camera
+								// otherwise, we'll use a movie file
+
 class ofApp : public ofBaseApp, public ofxMidiListener
 {
 
@@ -29,10 +35,10 @@ public:
 
     bool bSetup;
 
-    //queue of rec'd messages
+    // queue of rec'd messages
     vector<string> messages;
 
-    //string to send to clients
+    // string to send to clients
     string toSend;
 
     // websocket methods
@@ -51,4 +57,23 @@ public:
     ofxMidiIn midiInLaunchpad;
     ofxMidiIn midiInNanoKontrol;
     ofxMidiMessage midiMessage;
+    // openCv
+    #ifdef _USE_LIVE_VIDEO
+      ofVideoGrabber 		vidGrabber;
+    #else
+      ofVideoPlayer 		vidPlayer;
+    #endif
+
+    ofxCvColorImage			colorImg;
+
+    ofxCvGrayscaleImage 	grayImage;
+    ofxCvGrayscaleImage 	grayBg;
+    ofxCvGrayscaleImage 	grayDiff;
+
+    ofxCvContourFinder 	contourFinder;
+
+    int 				threshold;
+    bool				bLearnBakground;
+
+
 };
