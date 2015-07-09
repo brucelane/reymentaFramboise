@@ -6,7 +6,23 @@ void ofApp::setup(){
 	// setup a server with default options on port 9092
 	// - pass in true after port to set up with SSL
 	//bSetup = server.setup( 9093 );
+#ifdef _WIN32 || _WIN64
+	HWND m_hWnd = WindowFromDC(wglGetCurrentDC());
+	LONG style = ::GetWindowLong(m_hWnd, GWL_STYLE);
+	style &= ~WS_DLGFRAME;
+	style &= ~WS_CAPTION;
+	style &= ~WS_BORDER;
 
+	LONG exstyle = ::GetWindowLong(m_hWnd, GWL_EXSTYLE);
+	exstyle &= ~WS_EX_DLGMODALFRAME;
+
+	::SetWindowLong(m_hWnd, GWL_STYLE, style);
+	::SetWindowLong(m_hWnd, GWL_EXSTYLE, exstyle);
+
+	SetWindowPos(m_hWnd,
+		HWND_TOPMOST, 0, 0, 0, 0,
+		SWP_NOSIZE | SWP_NOMOVE);
+#endif
 	ofxLibwebsockets::ServerOptions options = ofxLibwebsockets::defaultServerOptions();
 	options.port = 9092;
 	options.bUseSSL = false; // you'll have to manually accept this self-signed cert if 'true'!
@@ -18,6 +34,8 @@ void ofApp::setup(){
 	ofBackground(0);
 	ofSetFrameRate(60);
 	ofSetWindowPosition(10, 100);
+	ofSetWindowPosition(2600, 0);
+	ofSetFullscreen(true);
 	// midi
 	// print input ports to console
 	midiIn.listPorts(); // via instance
@@ -38,20 +56,21 @@ void ofApp::setup(){
 		}
 	}
 	// open port by number (you may need to change this)
-	midiIn.openPort(3);
+	if (midiIn.openPort(3))
+	{
+		//midiIn
+		//midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
 
-	//midiIn
-	//midiIn.openVirtualPort("ofxMidiIn Input"); // open a virtual port
+		// don't ignore sysex, timing, & active sense messages,
+		// these are ignored by default
+		midiIn.ignoreTypes(false, false, false);
 
-	// don't ignore sysex, timing, & active sense messages,
-	// these are ignored by default
-	midiIn.ignoreTypes(false, false, false);
+		// add ofApp as a listener
+		midiIn.addListener(this);
 
-	// add ofApp as a listener
-	midiIn.addListener(this);
-
-	// print received messages to the console
-	midiIn.setVerbose(true);
+		// print received messages to the console
+		midiIn.setVerbose(true);
+	}
 
 	// openCv
 #ifdef _USE_LIVE_VIDEO
@@ -164,40 +183,36 @@ void ofApp::draw(){
 	text.str(""); // clear
 	// draw the last recieved message contents to the screen
 	text << "Received: " << ofxMidiMessage::getStatusString(midiMessage.status);
-	ofDrawBitmapString(text.str(), 20, 20);
+	ofDrawBitmapString(text.str(), 820, 20);
 	text.str(""); // clear
 
 	text << "channel: " << midiMessage.channel;
-	ofDrawBitmapString(text.str(), 20, 34);
+	ofDrawBitmapString(text.str(), 820, 34);
 	text.str(""); // clear
 
 	text << "pitch: " << midiMessage.pitch;
-	ofDrawBitmapString(text.str(), 20, 48);
+	ofDrawBitmapString(text.str(), 820, 48);
 	text.str(""); // clear
-	ofRect(20, 58, ofMap(midiMessage.pitch, 0, 127, 0, ofGetWidth() - 40), 20);
+	ofRect(820, 58, midiMessage.pitch, 20);
 
 	text << "velocity: " << midiMessage.velocity;
-	ofDrawBitmapString(text.str(), 20, 96);
+	ofDrawBitmapString(text.str(), 820, 96);
 	text.str(""); // clear
-	ofRect(20, 105, ofMap(midiMessage.velocity, 0, 127, 0, ofGetWidth() - 40), 20);
+	ofRect(820, 105, midiMessage.velocity, 20);
 
 	text << "control: " << midiMessage.control;
-	ofDrawBitmapString(text.str(), 20, 144);
+	ofDrawBitmapString(text.str(), 820, 144);
 	text.str(""); // clear
-	ofRect(20, 154, ofMap(midiMessage.control, 0, 127, 0, ofGetWidth() - 40), 20);
+	ofRect(820, 154, midiMessage.control, 20);
 
 	text << "value: " << midiMessage.value;
-	ofDrawBitmapString(text.str(), 20, 192);
+	ofDrawBitmapString(text.str(), 820, 192);
 	text.str(""); // clear
-	if (midiMessage.status == MIDI_PITCH_BEND) {
-		ofRect(20, 202, ofMap(midiMessage.value, 0, MIDI_MAX_BEND, 0, ofGetWidth() - 40), 20);
-	}
-	else {
-		ofRect(20, 202, ofMap(midiMessage.value, 0, 127, 0, ofGetWidth() - 40), 20);
-	}
+	ofRect(820, 202, midiMessage.value, 20);
+
 
 	text << "delta: " << midiMessage.deltatime;
-	ofDrawBitmapString(text.str(), 20, 240);
+	ofDrawBitmapString(text.str(), 820, 240);
 	text.str(""); // clear
 
 	//openCv
